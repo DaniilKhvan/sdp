@@ -1,78 +1,31 @@
-class Book {
-    private String title;
-    private String author;
-    private String pages;
-    private String genre;
-    private String publisher;
+// src/main/java/Main.java
 
-    public static class Builder {
-        private String title;
-        private String author;
-        private String pages;
-        private String genre;
-        private String publisher;
+import abstractfactory.Pizza;
 
-        public Builder title(String title) {
-            this.title = title;
-            return this;
-        }
-
-        public Builder author(String author) {
-            this.author = author;
-            return this;
-        }
-
-        public Builder pages(String pages) {
-            this.pages = pages;
-            return this;
-        }
-
-        public Builder genre(String genre) {
-            this.genre = genre;
-            return this;
-        }
-
-        public Builder publisher(String publisher) {
-            this.publisher = publisher;
-            return this;
-        }
-
-        public Book build() {
-            Book book = new Book();
-            book.title = title;
-            book.author = author;
-            book.pages = pages;
-            book.genre = genre;
-            book.publisher = publisher;
-            return book;
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "Book [title=" + title + ", author=" + author + ", pages=" + pages + ", genre=" + genre + ", publisher=" + publisher + "]";
-    }
-}
-
-class BookDirector {
-    public Book constructSampleBook(Book.Builder builder) {
-        return builder
-                .title("NotRich")
-                .author("Dan")
-                .pages("321")
-                .genre("Fantastic")
-                .publisher("Khvan")
-                .build();
-    }
-}
-
+/**
+ * Client code demonstrating both patterns.
+ * This class shows how to use Factory Method and Abstract Factory.
+ */
 public class Main {
     public static void main(String[] args) {
-        BookDirector director = new BookDirector();
-        Book.Builder builder = new Book.Builder();
+        // Demonstrate Factory Method
+        System.out.println("Factory Method:");
+        factorymethod.PizzaStore nyStore = new factorymethod.PepperoniPizzaStore();
+        factorymethod.Pizza nyPizza = nyStore.orderPizza("cheese");
+        System.out.println("Ordered: " + nyPizza.getName() + "\n");
 
-        Book book = director.constructSampleBook(builder);
+        factorymethod.PizzaStore chicagoStore = new factorymethod.MargaritaPizzaStore();
+        factorymethod.Pizza chicagoPizza = chicagoStore.orderPizza("cheese");
+        System.out.println("Ordered: " + chicagoPizza.getName() + "\n");
 
-        System.out.println(book.toString());
+        // Demonstrate Abstract Factory
+        System.out.println("Abstract Factory Demo:");
+        abstractfactory.IngredientFactory nyIngredientFactory = new abstractfactory.PepperoniIngredientFactory();
+        Pizza nyCheesePizza = new Pizza(nyIngredientFactory);
+        nyCheesePizza.display();
+
+        abstractfactory.IngredientFactory chicagoIngredientFactory = new abstractfactory.MargaritaIngredientFactory();
+        Pizza chicagoCheesePizza = new Pizza(chicagoIngredientFactory);
+        chicagoCheesePizza.display();
     }
 }
